@@ -31,15 +31,16 @@ export const RentedProvider = ({ children }) => {
     }
   };
 
-  const removeMovie = async (movieId) => {
-    try {
-      const updatedMovies = rentedMovies.filter((movie) => movie.id !== movieId);
-      setRentedMovies(updatedMovies);
-      await AsyncStorage.setItem("rentedMovies", JSON.stringify(updatedMovies));
-    } catch (error) {
-      console.error("Error removing movie:", error);
-    }
-  };
+   const removeMovie = async (movieId) => {
+  try {
+    const updatedMovies = rentedMovies.filter((movie) => movie.id != movieId);
+    setRentedMovies(updatedMovies);
+    await AsyncStorage.setItem("rentedMovies", JSON.stringify(updatedMovies));
+  } catch (error) {
+    console.error("Error removing movie:", error);
+  }
+};
+
 
   return (
     <RentedContext.Provider value={{ rentedMovies, rentMovie, removeMovie }}>

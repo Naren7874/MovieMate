@@ -5,7 +5,8 @@ import { MovieProvider } from '../context/MovieContext';
 import { RentedProvider } from '../context/RentedContext';
 
 const Layout = () => {
-  return (
+  return (<>
+  
     <MovieProvider>
       <RentedProvider>
         <Stack>
@@ -13,6 +14,7 @@ const Layout = () => {
         </Stack>
       </RentedProvider>
     </MovieProvider>
+  </>
   );
 };
 
