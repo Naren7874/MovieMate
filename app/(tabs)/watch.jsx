@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  StyleSheet,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { WebView } from "react-native-webview";
@@ -14,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { useFocusEffect } from "@react-navigation/native";
+import { useTheme } from "../../theme/ThemeContext"; // Import the useTheme hook
 
 const TMDB_API_KEY = "ab536ec46fded144ba00b87ce07bd5f8"; 
 
@@ -25,6 +27,7 @@ export default function WatchScreen() {
   const [loading, setLoading] = useState(true);
   const [fullScreen, setFullScreen] = useState(false);
   const movie = rentedMovies.find((m) => m.id == movieId);
+  const { theme, toggleTheme, isDarkMode } = useTheme(); // Use the theme context
 
   useEffect(() => {
     if (!movieId) return;
@@ -71,7 +74,6 @@ export default function WatchScreen() {
     return () => subscription.remove();
   }, [fullScreen]);
 
-  // ✅ FIX: Reset orientation when leaving the screen (even if exited unconventionally)
   useFocusEffect(
     React.useCallback(() => {
       return () => {
@@ -80,7 +82,6 @@ export default function WatchScreen() {
     }, [])
   );
 
-  // ✅ FIX: Reset orientation on unmount (handles unconventional back)
   useEffect(() => {
     return () => {
       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
@@ -113,52 +114,140 @@ export default function WatchScreen() {
     );
   };
 
-  if (!movieId) return <Text className="text-center text-red-500 font-bold">Error: No Movie Selected</Text>;
+  if (!movieId) return <Text style={[styles.errorText, { color: theme.colors.text }]}>Error: No Movie Selected</Text>;
 
   return (
-    <SafeAreaView className="flex-1 bg-white px-4">
-
-      {/* 🔙 Back Button & Title */}
-      <View className="flex-row items-center py-4">
-        <TouchableOpacity onPress={() => router.back()} className="mr-3">
-          <Ionicons name="arrow-back" size={28} color="black" />
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={28} color={theme.colors.text} />
         </TouchableOpacity>
-        <Text className="text-2xl font-bold">Watch</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Watch</Text>
+        <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
+          <Ionicons name={isDarkMode ? "sunny" : "moon"} size={24} color={theme.colors.text} />
+        </TouchableOpacity>
       </View>
 
-      {/* 🎥 Trailer Section */}
-      <Text className="text-4xl text-center mb-5 font-bold">{movie?.title || "Movie"}</Text>
+      <Text style={[styles.movieTitle, { color: theme.colors.text }]}>{movie?.title || "Movie"}</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" className="mt-10" />
+        <ActivityIndicator size="large" color={theme.colors.primary} style={styles.loader} />
       ) : trailerUrl ? (
-        <View  className={`${fullScreen ? "absolute top-0 left-0 right-0 bottom-0 z-50" : "h-2/5 w-full rounded-lg shadow-lg"}`}>
+        <View style={fullScreen ? styles.fullScreenVideo : styles.videoContainer}>
           <WebView
             source={{ uri: trailerUrl }}
-            style={{ flex: 1 }}
+            style={styles.webView}
             allowsFullscreenVideo
           />
           <TouchableOpacity 
             onPress={fullScreen ? exitFullScreen : enterFullScreen} 
-            className="absolute bottom-2 right-2 bg-black bg-opacity-50 p-2 rounded-full"
+            style={styles.fullscreenButton}
           >
             <Ionicons name={fullScreen ? "contract" : "expand"} size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : (
-        <Text className="text-center text-lg text-gray-500 mt-10">No Trailer Available</Text>
+        <Text style={[styles.noTrailerText, { color: theme.colors.text }]}>No Trailer Available</Text>
       )}
 
-      {/* ✅ "Mark as Watched" Button (Only in Portrait Mode) */}
       {!fullScreen && (
         <TouchableOpacity 
           onPress={confirmMarkAsWatched} 
-          className="bg-blue-500 py-3 mt-5 mb-5 rounded-lg shadow-md shadow-gray-500 items-center"
+          style={[styles.watchedButton, { backgroundColor: theme.colors.primary }]}
         >
-          <Text className="text-white text-lg font-semibold">Mark as Watched</Text>
+          <Text style={styles.watchedButtonText}>Mark as Watched</Text>
         </TouchableOpacity>
       )}
-
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  errorText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginTop: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+  },
+  backButton: {
+    padding: 8,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  themeToggle: {
+    padding: 8,
+  },
+  movieTitle: {
+    fontSize: 32,
+    textAlign: 'center',
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+  loader: {
+    marginTop: 40,
+  },
+  videoContainer: {
+    height: '40%',
+    width: '100%',
+    borderRadius: 8,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  fullScreenVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 50,
+  },
+  webView: {
+    flex: 1,
+  },
+  fullscreenButton: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 8,
+    borderRadius: 20,
+  },
+  noTrailerText: {
+    textAlign: 'center',
+    fontSize: 18,
+    marginTop: 40,
+  },
+  watchedButton: {
+    paddingVertical: 12,
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  watchedButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
