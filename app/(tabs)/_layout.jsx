@@ -18,11 +18,11 @@ const Layout = () => {
   // // Call this function where needed
   // clearAsyncStorage();
   return (
-    <Tabs
+    <Tabs 
       screenOptions={{
         tabBarActiveTintColor: Colors.primary,
         headerShown:false,
-
+        tabBarStyle: { display: "none" }, 
       }}
     >
       <Tabs.Screen
@@ -32,7 +32,9 @@ const Layout = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
+          
         }}
+        
       />
       <Tabs.Screen
         name="rented"

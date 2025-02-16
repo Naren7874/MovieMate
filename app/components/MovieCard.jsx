@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Alert } from "react-native";
 import { Button, Card } from "react-native-elements";
 import { RentedContext } from "../../context/RentedContext";
 
@@ -12,6 +12,19 @@ export default function MovieCard({ movie, onWatch }) {
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : "https://via.placeholder.com/500x750?text=No+Image";
 
+  const handleRentMovie = () => {
+    const randomAmount = Math.floor(Math.random() * (999 - 299 + 1)) + 299; // Random amount between $299-$999
+
+    Alert.alert(
+      "Confirm Rental",
+      `Do you want to rent "${movie.title}" for $${randomAmount}?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Confirm", onPress: () => rentMovie(movie) }, // Rent the movie if confirmed
+      ]
+    );
+  };
+
   return (
     <Card containerStyle={styles.card}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -23,7 +36,7 @@ export default function MovieCard({ movie, onWatch }) {
         {isRented ? (
           <Button title="Watch" buttonStyle={styles.watchButton} onPress={() => onWatch(movie.id)} />
         ) : (
-          <Button title="Rent Movie" buttonStyle={styles.rentButton} onPress={() => rentMovie(movie)} />
+          <Button title="Rent Movie" buttonStyle={styles.rentButton} onPress={handleRentMovie} />
         )}
       </View>
     </Card>

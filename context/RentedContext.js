@@ -40,8 +40,6 @@ export const RentedProvider = ({ children }) => {
     console.error("Error removing movie:", error);
   }
 };
-
-
   return (
     <RentedContext.Provider value={{ rentedMovies, rentMovie, removeMovie }}>
       {children}
