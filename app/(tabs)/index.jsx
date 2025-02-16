@@ -162,7 +162,7 @@ export default function HomeScreen() {
         />
       ) : (
         <>
-          <Text style={{ fontSize: 25, fontWeight: "bold", marginVertical: 10, paddingLeft: 5 }}>
+          <Text style={{ fontSize: 25, fontWeight: "bold", marginVertical: 10, paddingLeft: 10 }}>
             Latest Movies
           </Text>
           {loading ? (

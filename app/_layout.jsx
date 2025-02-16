@@ -5,10 +5,8 @@ import { MovieProvider } from '../context/MovieContext';
 import { RentedProvider } from '../context/RentedContext';
 import { WatchedProvider } from '../context/WatchedContext';
 
-
 const Layout = () => {
   return (<>
-  
     <MovieProvider>
       <RentedProvider>
         <WatchedProvider>

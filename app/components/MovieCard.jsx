@@ -13,7 +13,7 @@ export default function MovieCard({ movie, onWatch }) {
     : "https://via.placeholder.com/500x750?text=No+Image";
 
   const handleRentMovie = () => {
-    const randomAmount = Math.floor(Math.random() * (999 - 299 + 1)) + 299; // Random amount between $299-$999
+    const randomAmount = Math.floor(Math.random() * (9.99 - 2.99 + 1)) + 2.99; // Random amount between $299-$999
 
     Alert.alert(
       "Confirm Rental",
@@ -47,15 +47,18 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
     padding: 10,
-    margin: 10,
+    margin: 20,
     backgroundColor: "#fff",
     elevation: 5, 
   },
   image: {
     width: "100%",
-    height: 250,
+    height: 250, 
     borderRadius: 10,
+    resizeMode: "contain",  // ✅ Ensures full image is visible
   },
+  
+
   title: {
     fontSize: 18,
     fontWeight: "bold",
