@@ -77,7 +77,6 @@ export default function HomeScreen() {
         <Text style={{ fontSize: 32, fontWeight: "bold", color: isDarkMode ? "white" : "black", paddingTop: 10, paddingLeft: 2 }}>
           <Text style={{ color: "#007bff" }}>Movie</Text>Rental
         </Text>
-        
         {/* 🌞/🌙 Theme Toggle Icon */}
         <TouchableOpacity onPress={toggleTheme} style={{ paddingRight: 10 }}>
           <Feather name={isDarkMode ? "sun" : "moon"} size={30} color={isDarkMode ? "white" : "black"} />
