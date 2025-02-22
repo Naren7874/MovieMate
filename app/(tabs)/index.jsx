@@ -124,11 +124,11 @@ export default function HomeScreen() {
           <Text
             style={[
               styles.title,
-              { color: isDarkMode ? theme.colors.text : "#000000" },
+              { color: isDarkMode ? "#ffffff" : "#000000" },
             ]}
           >
-            Cinema
-            <Text style={{ color: theme.colors.primary }}>Hub</Text>
+            Movie
+            <Text style={{ color: theme.colors.primary }}>Mate</Text>
           </Text>
         </View>
 
