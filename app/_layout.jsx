@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import "../global.css";
-import { Stack } from 'expo-router';
-import { MovieProvider } from '../context/MovieContext';
-import { RentedProvider } from '../context/RentedContext';
-import { WatchedProvider } from '../context/WatchedContext';
-import { ThemeProvider as RNEThemeProvider } from '@rneui/themed';
-import { ThemeProvider, useTheme } from '../theme/ThemeContext';
+import { Stack } from "expo-router";
+import { MovieProvider } from "../context/Movie";
+import { RentedProvider } from "../context/Rented";
+import { WatchedProvider } from "../context/Watched";
+import { ThemeProvider as RNEThemeProvider } from "@rneui/themed";
+import { ThemeProvider, useTheme } from "../theme/ThemeContext";
 
 const Layout = () => {
   return (

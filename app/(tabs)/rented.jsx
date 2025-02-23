@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { RentedContext } from "../../context/RentedContext";
+import { RentedContext } from "../../context/Rented";
 import MovieCard from "../components/Card";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";

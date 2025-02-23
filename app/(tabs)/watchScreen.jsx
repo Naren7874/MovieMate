@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { WebView } from "react-native-webview";
-import { RentedContext } from "../../context/RentedContext";
+import { RentedContext } from "../../context/Rented";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ScreenOrientation from "expo-screen-orientation";

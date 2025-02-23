@@ -12,9 +12,9 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MovieContext } from "../../context/MovieContext";
-import { RentedContext } from "../../context/RentedContext";
-import { WatchedContext } from "../../context/WatchedContext";
+import { MovieContext } from "../../context/Movie";
+import { RentedContext } from "../../context/Rented";
+import { WatchedContext } from "../../context/Watched";
 import MovieCard from "../components/Card";
 import { router } from "expo-router";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
